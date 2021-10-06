@@ -1,14 +1,34 @@
-import React from "react";
-import Input from "./UI/Input";
+import React, { useState } from "react";
 import Button from "./UI/Button";
-import Card from "./UI/Card";
+import { Container } from "@material-ui/core";
 
-export default function addTodo() {
+export default function AddTodo({ getTodo }) {
+  const [enteredTodo, setEnteredTodo] = useState();
+
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (enteredTodo.trim().length === 0) return;
+    getTodo(enteredTodo);
+    setEnteredTodo('');
+  };
+
+  const getEnteredTodo = (e) => {
+    setEnteredTodo(e.target.value);
+  };
+
   return (
     <>
-      <Card>
- 
-      </Card>
+      <Container>
+        <h1>Start Adding Your Todos</h1>
+        <form onSubmit={addTodo}>
+          <input
+            type="text"
+            placeholder="Add your todos"
+            onChange={getEnteredTodo}
+          />
+          <Button type="submit" text="Add" />
+        </form>
+      </Container>
     </>
   );
 }
