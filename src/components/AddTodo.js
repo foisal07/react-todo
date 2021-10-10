@@ -3,13 +3,14 @@ import Button from "./UI/Button";
 import { Container } from "@material-ui/core";
 
 export default function AddTodo({ getTodo }) {
-  const [enteredTodo, setEnteredTodo] = useState();
+  const [enteredTodo, setEnteredTodo] = useState("");
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (enteredTodo.trim().length === 0) return;
-    getTodo(enteredTodo);
-    setEnteredTodo('');
+    if (enteredTodo !== "") {
+      getTodo(enteredTodo);
+      setEnteredTodo("");
+    }
   };
 
   const getEnteredTodo = (e) => {
@@ -25,7 +26,8 @@ export default function AddTodo({ getTodo }) {
             type="text"
             placeholder="Add your todos"
             onChange={getEnteredTodo}
-          />
+            value={enteredTodo}
+          />{" "}
           <Button type="submit" text="Add" />
         </form>
       </Container>
