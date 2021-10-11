@@ -1,17 +1,17 @@
 import { Container } from "@material-ui/core";
 import React from "react";
-import Button from "./UI/Button";
 
-export default function TodoList({ todos, deleteTodo }) {
+export default function TodoList({ todos, deleteTodo, editTodo }) {
   return (
     <>
       <Container>
-        <h2>The Todo's</h2>
+        <h2>Your Todo's</h2>
         <ul>
           {todos.map((todo) => (
             <li key={todo.id}>
               {todo.text}{" "}
-              {<button onClick={() => deleteTodo(todo.id)}> X </button>}
+              {<button onClick={() => editTodo(todo)}> Edit </button>}{" "}
+              {<button onClick={() => deleteTodo(todo.id)}> Delete </button>}
             </li>
           ))}
         </ul>
