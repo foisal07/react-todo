@@ -1,13 +1,25 @@
 import TodoList from "./components/TodoList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTodoForm from "./components/AddTodoForm";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+
+    if (savedTodos) {
+      return JSON.parse(savedTodos);
+    } else {
+      return [];
+    }
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [todoTextToUpdate, setTodoTextToUpdate] = useState({});
 
-  const getTodo = (enteredTodo) => {
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  const addTodo = (enteredTodo) => {
     setTodos((prevTodos) => [
       ...prevTodos,
       {
@@ -51,7 +63,7 @@ function App() {
     <div className="App">
       {/* Add todo */}
       <AddTodoForm
-        getTodo={getTodo}
+        addTodo={addTodo}
         isEditing={isEditing}
         todoTextToUpdate={todoTextToUpdate}
         getUpdatedTodo={getUpdatedTodo}

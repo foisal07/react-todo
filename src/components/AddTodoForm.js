@@ -3,7 +3,7 @@ import Button from "./UI/Button";
 import { Container } from "@material-ui/core";
 
 export default function AddTodoForm({
-  getTodo,
+  addTodo,
   isEditing,
   todoTextToUpdate,
   getUpdatedTodo,
@@ -13,10 +13,10 @@ export default function AddTodoForm({
 }) {
   const [enteredTodo, setEnteredTodo] = useState("");
 
-  const addTodo = (e) => {
+  const submitTodo = (e) => {
     e.preventDefault();
     if (enteredTodo !== "") {
-      getTodo(enteredTodo);
+      addTodo(enteredTodo);
       setEnteredTodo("");
     }
   };
@@ -38,16 +38,17 @@ export default function AddTodoForm({
               onChange={getUpdatedTodo}
               value={todoTextToUpdate.text}
             />{" "}
-            <button onClick={() => updateTodo(todoTextToUpdate.id)}>
-              Update
-            </button>{" "}
-            <button onClick={cancelEdit}> Cancel </button>
+            <Button
+              text="update"
+              onClick={() => updateTodo(todoTextToUpdate.id)}
+            />
+            <Button text="Cancel" onClick={cancelEdit} />
           </form>
         </Container>
       ) : (
         <Container>
           <h1>A Simple Todos</h1>
-          <form onSubmit={addTodo}>
+          <form onSubmit={submitTodo}>
             <label htmlFor="editTodo">Add todo: </label>
             <input
               type="text"
