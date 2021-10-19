@@ -1,25 +1,32 @@
 import TodoList from "./components/TodoList";
 import { useEffect, useState } from "react";
 import AddTodoForm from "./components/AddTodoForm";
+import { getDatabase, set, ref } from "firebase/database";
+import app from "./firebase";
 
 function App() {
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-    if (savedTodos) {
-      return JSON.parse(savedTodos);
-    } else {
-      return [];
-    }
-  });
+  const [todos, setTodos] = useState([]);
+
+  // () => {
+  //   // const savedTodos = localStorage.getItem("todos");
+  //   // if (savedTodos) {
+  //   //   return JSON.parse(savedTodos);
+  //   // } else {
+  //   //   return [];
+  //   // }
+  // };
+
   const [isEditing, setIsEditing] = useState(false);
   const [todoTextToUpdate, setTodoTextToUpdate] = useState({});
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    // localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const addTodo = (enteredTodo) => {
+  const addTodo = async (enteredTodo) => {
     setTodos((prevTodos) => [
       ...prevTodos,
       {
@@ -27,6 +34,9 @@ function App() {
         id: new Date().valueOf(),
       },
     ]);
+    console.log(todos);
+    const db = getDatabase(app);
+    set(ref(db, 'todos'), todos)
   };
 
   const deleteTodo = (id) => {
@@ -61,7 +71,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* Add todo */}
+      {/* Add todos */}
       <AddTodoForm
         addTodo={addTodo}
         isEditing={isEditing}

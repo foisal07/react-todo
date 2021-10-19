@@ -14,6 +14,7 @@ export default function AddTodoForm({
   const [enteredTodo, setEnteredTodo] = useState("");
 
   const submitTodo = (e) => {
+    setEnteredTodo(e.target.value);
     e.preventDefault();
     if (enteredTodo !== "") {
       addTodo(enteredTodo);

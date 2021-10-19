@@ -6,7 +6,7 @@ export default function TodoList({ todos, deleteTodo, editTodo }) {
   return (
     <>
       <Container>
-        <h2>Todo's</h2>
+        <h2>Your Todo's</h2>
         <ul>
           {todos.map((todo) => (
             <li key={todo.id}>
